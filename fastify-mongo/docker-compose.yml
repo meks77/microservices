@@ -1,0 +1,25 @@
+version: '3'
+
+services:
+
+  mongo:
+    build: mongo/
+    restart: always
+    volumes:
+      - /opt/microservices/fastify/data:/data/db
+
+  fastify:
+    build: fastify
+    depends_on:
+      - mongo
+    restart: always
+    ports:
+      - 8080:3000
+
+#  mongo-express:
+#    image: mongo-express
+#    depends_on:
+#      - mongo
+#    restart: always
+#    ports:
+#      - 8081:8081
