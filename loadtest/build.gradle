@@ -1,0 +1,16 @@
+apply plugin: 'java'
+apply plugin: 'application'
+
+repositories {
+    mavenCentral()
+}
+
+application {
+    mainClassName = 'at.meks.loadtest.Main'
+}
+
+dependencies {
+    implementation 'info.picocli:picocli:4.0.0'
+    implementation 'com.google.http-client:google-http-client:1.30.2'
+
+}
