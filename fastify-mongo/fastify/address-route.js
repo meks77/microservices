@@ -12,7 +12,7 @@ async function routes (fastify, options) {
     function onCollection (err, col) {
       if(err) return reply.send(err)
       fastify.log.info("getting address from mongo for " + request.params.id)
-    
+
       col.findOne({ _id: parseInt(request.params.id) }, (err, address) => {
         fastify.log.info("got value from mongo: " + address)
         reply.send(address)

@@ -1,4 +1,4 @@
-const fastify = require('fastify')
+const fastify = require('fastify')();
 
 fastify.register(require('./db-connector'), {
   url: 'mongodb://mongo:27017/'

@@ -8,14 +8,25 @@ services:
     volumes:
       - /opt/microservices/fastify/data:/data/db
 
-  fastify:
+  fastify_1:
     build: fastify
     depends_on:
       - mongo
     restart: always
-    ports:
-      - 8080:3000
 
+  fastify_2:
+    build: fastify
+    depends_on:
+      - mongo
+    restart: always
+
+  proxy:
+    build: proxy
+    depends_on:
+      - fastify_1
+      - fastify_2
+    ports:
+      - 8080:8080
 #  mongo-express:
 #    image: mongo-express
 #    depends_on:
