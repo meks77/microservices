@@ -4,15 +4,18 @@ package at.meks.loadtest;
 import com.google.api.client.http.GenericUrl;
 import com.google.api.client.http.HttpRequest;
 import com.google.api.client.http.HttpRequestFactory;
+import com.google.api.client.http.HttpResponse;
 import com.google.api.client.http.javanet.NetHttpTransport;
 import picocli.CommandLine;
 
 import java.io.IOException;
+import java.text.NumberFormat;
 import java.util.Random;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
+import java.util.concurrent.atomic.AtomicLong;
 import java.util.function.Consumer;
 import java.util.stream.IntStream;
 
@@ -37,13 +40,13 @@ public class Main implements Callable<Integer> {
     @CommandLine.Option(names = { "-c", "--threads"}, defaultValue = "1")
     private int threads;
 
-    private long minDuration = Long.MAX_VALUE;
+    private volatile long minDuration = Long.MAX_VALUE;
 
-    private long maxDuration;
+    private volatile long maxDuration = Long.MIN_VALUE;
 
-    private long durationSum;
+    private AtomicLong durationSum = new AtomicLong();
 
-    private Random rnd = new Random();
+    private volatile Random rnd = new Random();
 
     public static void main(String[] args) {
         new CommandLine(new Main()).execute(args);
@@ -64,20 +67,26 @@ public class Main implements Callable<Integer> {
         long end = System.currentTimeMillis();
         System.out.println("finished requests: " + requests);
         System.out.println("duration(s): " + ((end -start) / 1000.0));
-        System.out.println("min duration(ms): " + (minDuration / 1000000.0));
-        System.out.println("max duration(ms): " + (maxDuration / 1000000.0));
-        System.out.println("avg duration(ms): " + (durationSum / (double) requests / 1000000.0));
-        System.out.println("requests/second): " + requests / ((end - start) / 1000.0));
+        NumberFormat integerFormat = NumberFormat.getIntegerInstance();
+        integerFormat.setGroupingUsed(true);
+        System.out.println("min duration(nano): " + integerFormat.format(minDuration));
+        System.out.println("max duration(nano): " + integerFormat.format(maxDuration));
+        System.out.println("avg duration(nano): " + integerFormat.format(durationSum.get() / (double) requests));
+        System.out.println("requests/second): " + integerFormat.format(requests / ((end - start) / 1000.0)));
         return 0;
     }
 
     private void monitor(Consumer<String> runnable) {
         String requestUrl = url.replace("${rnd}", String.valueOf(rnd.nextInt(randomTo - randomFrom) + randomFrom));
         long begin = System.nanoTime();
-        runnable.accept(requestUrl);
+        try {
+            runnable.accept(requestUrl);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         long end = System.nanoTime();
         long duration = end - begin;
-        durationSum += duration;
+        durationSum.addAndGet(duration);
         if (minDuration > duration) minDuration = duration;
         if (maxDuration < duration) maxDuration = duration;
     }
@@ -86,7 +95,14 @@ public class Main implements Callable<Integer> {
         HttpRequestFactory requestFactory = new NetHttpTransport().createRequestFactory();
         try {
             HttpRequest request = requestFactory.buildGetRequest(new GenericUrl(url));
-            request.execute();
+            HttpResponse response = request.execute();
+            try {
+                if (!response.isSuccessStatusCode()) {
+                    System.out.println("request ends with error " + response.getStatusCode());
+                }
+            } finally {
+                response.disconnect();
+            }
         } catch (IOException e) {
             throw new IllegalStateException(e);
         }
