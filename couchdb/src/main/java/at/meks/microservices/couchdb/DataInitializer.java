@@ -17,7 +17,7 @@ public class DataInitializer {
     }
 
     private void setupData() {
-        for (int i= 0; i <=8000000; i+=1000) {
+        for (int i= 0; i <=8000000; i+=5000) {
             int personId = 1000000000 + i;
             doHttpRequest("http://localhost:5984/addresses/_bulk_docs", personId);
             System.out.println(LocalDateTime.now() + " created "+ (i + 1) + " address");
@@ -29,12 +29,13 @@ public class DataInitializer {
         try {
             StringBuilder sb = new StringBuilder();
             sb.append("{\n \"docs\": [ \n");
-            for (int i=0; i<1000; i++) {
+            for (int i=0; i<5000; i++) {
                 int currPersId = personId + i;
                 if (i > 0) {
                     sb.append(",\n");
                 }
                 sb.append("{\n")
+                        .append(" \"_id\": \"").append(currPersId).append("\",\n")
                         .append(" \"strasse\": \"Strasse of ").append(currPersId).append("\",\n")
                         .append(" \"plz\": \"plz of ").append(currPersId).append("\",\n")
                         .append(" \"ort\": \"ort of ").append(currPersId).append("\"\n")
