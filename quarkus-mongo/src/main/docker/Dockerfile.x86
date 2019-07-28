@@ -3,3 +3,4 @@ ENV JAVA_OPTIONS="-Dquarkus.http.host=0.0.0.0 -Djava.util.logging.manager=org.jb
 ENV AB_ENABLED=jmx_exporter
 COPY *-runner.jar app.jar
 CMD [ "java", "-jar", "app.jar" ]
+EXPOSE 8080

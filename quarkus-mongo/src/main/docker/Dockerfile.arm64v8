@@ -4,3 +4,4 @@ ENV AB_ENABLED=jmx_exporter
 COPY *-runner.jar app.jar
 COPY lib/* lib/
 CMD [ "java", "-jar", "app.jar" ]
+EXPOSE 8080
