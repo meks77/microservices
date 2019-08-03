@@ -4,16 +4,18 @@ services:
 
   couchdb:
     build:
-      context: ../couchdb/src/main/docker
+      context: ../../../../couchdb/src/main/docker
     volumes:
       - /opt/microservices/couchdb/:/opt/couchdb/data/
 #    ports:
 #      - 5984:5984
 
-  fastify:
-    build: fastify
+  quarkus:
+    build:
+      context: ../../../
+      dockerfile: src/main/docker/quarkus/Dockerfile.x86
     ports:
-      - 10001:3000
+      - 10000:8080
     depends_on:
       - couchdb
     restart: always
