@@ -1,0 +1,21 @@
+version: '3'
+
+services:
+
+  redisdb:
+    build:
+      context: ../../../../redis
+    volumes:
+      - /opt/microservices/redis/:/data/
+#    ports:
+#      - 5984:5984
+
+  quarkus:
+    build:
+      context: ../../../
+      dockerfile: src/main/docker/quarkus/Dockerfile.x86
+    ports:
+      - 10000:8080
+    depends_on:
+      - redisdb
+    restart: always

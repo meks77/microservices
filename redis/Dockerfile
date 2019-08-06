@@ -1,4 +1,4 @@
 FROM redis:alpine
 
 COPY *.sh ./
-CMD [""]
+CMD ["redis-server", "--port 6379"]
