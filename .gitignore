@@ -2,3 +2,7 @@ build
 .idea
 out
 .gradle
+# ignore go package dependencies
+pkg
+# go build files in windows
+*.exe
