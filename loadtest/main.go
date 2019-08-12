@@ -15,25 +15,21 @@ import (
   Java with 36 Threads needs  ~ 60 - 70 % of the CPU just for the loadtest, while only 30 - 40 % are used by my linux vm
   Using go for 36 parallel requests needs only ~ 6.5 to 9.5 % for the loadtest
 */
-import (
-	"flag"
-	"fmt"
-	"math/rand"
-	"net/http"
-	"strconv"
-	"strings"
-	"time"
-)
 
-func runRequests(core, requests int, url string, durationOfRequests chan time.Duration) {
+func runRequests(requests int, url string, rndRangeFrom, rndRangeTo int, durationOfRequests chan time.Duration) {
 	var sumDurations time.Duration
 	for i := 0; i < requests; i++ {
-		//if i % 100 == 0 {
-		//	fmt.Println("Thread ", core, " with Request ", i)
-		//}
-		rndPersonId := rand.Intn(800000) + 1000000000
+		var rndPersonId int
+		if rndRangeTo-rndRangeFrom > 0 {
+			rndNr := rand.Intn(rndRangeTo - rndRangeFrom)
+			//fmt.Println("random nr: ", rndNr)
+			rndPersonId = rndNr + rndRangeFrom
+			//fmt.Println("random PersonId: ", rndPersonId)
+		} else {
+			rndPersonId = rndRangeFrom
+		}
 		replacedUrl := strings.ReplaceAll(url, "$rnd", fmt.Sprintf("%010.f", float64(rndPersonId)))
-
+		fmt.Println("url:", replacedUrl)
 		before := time.Now()
 		resp, err := http.Get(replacedUrl)
 		after := time.Now()
@@ -44,7 +40,7 @@ func runRequests(core, requests int, url string, durationOfRequests chan time.Du
 		} else if resp.StatusCode != 200 {
 			fmt.Errorf("http request code was ", resp.StatusCode)
 		}
-		if err != nil {
+		if err != nil && resp != nil && resp.Body != nil {
 			resp.Body.Close()
 		}
 	}
@@ -54,6 +50,8 @@ func runRequests(core, requests int, url string, durationOfRequests chan time.Du
 func main() {
 	requestCount := flag.Int("n", 1, "number of requests")
 	cores := flag.Int("c", 1, "number of parallel reqeuests")
+	rndRangeFrom := flag.Int("f", 1000000000, "range begin of randomized numbers replacing $rnd in url")
+	rndRangeTo := flag.Int("t", 1000000000, "range end of randomized numbers replacing $rnd in url")
 	flag.Parse()
 
 	url := flag.Arg(0)
@@ -62,7 +60,7 @@ func main() {
 	begin := time.Now()
 	durationSumPerCore := make(chan time.Duration)
 	for core := 0; core < *cores; core++ {
-		go runRequests(core, requestsPerThread, url, durationSumPerCore)
+		go runRequests(requestsPerThread, url, *rndRangeFrom, *rndRangeTo, durationSumPerCore)
 	}
 	for core := 0; core < *cores; core++ {
 		durationSum = durationSum + <-durationSumPerCore
