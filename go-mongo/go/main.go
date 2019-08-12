@@ -36,7 +36,7 @@ func getOneAddress(w http.ResponseWriter, r *http.Request) {
 		fmt.Println("error serving personId ", parsedPersonId)
 		panic(err)
 	}
-	fmt.Println(w, raws.String())
+	//fmt.Println(w, raws.String())
 	//fmt.Fprintf(w, "{ \"id\": \""+personId+"\" }")
 }
 

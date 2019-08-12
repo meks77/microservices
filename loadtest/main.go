@@ -29,7 +29,7 @@ func runRequests(requests int, url string, rndRangeFrom, rndRangeTo int, duratio
 			rndPersonId = rndRangeFrom
 		}
 		replacedUrl := strings.ReplaceAll(url, "$rnd", fmt.Sprintf("%010.f", float64(rndPersonId)))
-		fmt.Println("url:", replacedUrl)
+		//fmt.Println("url:", replacedUrl)
 		before := time.Now()
 		resp, err := http.Get(replacedUrl)
 		after := time.Now()
