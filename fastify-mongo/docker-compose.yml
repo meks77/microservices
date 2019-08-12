@@ -3,7 +3,7 @@ version: '3'
 services:
 
   mongo:
-    build: mongo/
+    build: ../mongo/
     restart: always
     volumes:
       - /opt/microservices/fastify/data:/data/db
