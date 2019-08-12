@@ -12,7 +12,6 @@ import (
 	"strconv"
 )
 
-var client mongo.Client
 var collection *mongo.Collection
 
 func getOneAddress(w http.ResponseWriter, r *http.Request) {
@@ -37,6 +36,7 @@ func getOneAddress(w http.ResponseWriter, r *http.Request) {
 		panic(err)
 	}
 	//fmt.Println(w, raws.String())
+	fmt.Fprintln(w, raws)
 	//fmt.Fprintf(w, "{ \"id\": \""+personId+"\" }")
 }
 
