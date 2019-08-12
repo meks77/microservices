@@ -1,0 +1,17 @@
+version: '3'
+
+services:
+
+  mongo:
+    build: ../mongo/
+    restart: always
+    volumes:
+      - /opt/microservices/fastify/data:/data/db
+
+  go:
+    build: go
+    ports:
+      - 10005:10005
+    depends_on:
+      - mongo
+    restart: always
