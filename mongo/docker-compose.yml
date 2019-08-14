@@ -8,7 +8,7 @@ services:
     ports:
       - 27017:27017
     volumes:
-      - /home/mhager/docker/mongo/data:/data/db
+      - /opt/microservices/mongo:/data/db
 #    environment:
 #      MONGO_INITDB_ROOT_USERNAME: root
 #      MONGO_INITDB_ROOT_PASSWORD: example
@@ -16,6 +16,8 @@ services:
   mongo-express:
     image: mongo-express
     restart: always
+    depends_on:
+      - mongo
     ports:
       - 8081:8081
 #    environment:

@@ -6,7 +6,7 @@ services:
     build: ../mongo/
     restart: always
     volumes:
-      - /opt/microservices/fastify/data:/data/db
+      - /opt/microservices/mongo:/data/db
 
   go:
     build: go
