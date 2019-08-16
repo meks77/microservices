@@ -3,6 +3,8 @@ package main
 import (
 	"flag"
 	"fmt"
+	"io/ioutil"
+	"log"
 	"math/rand"
 	"net/http"
 	"strconv"
@@ -22,23 +24,25 @@ func runRequests(requests int, url string, rndRangeFrom, rndRangeTo int, duratio
 		var rndPersonId int
 		if rndRangeTo-rndRangeFrom > 0 {
 			rndNr := rand.Intn(rndRangeTo - rndRangeFrom)
-			//fmt.Println("random nr: ", rndNr)
 			rndPersonId = rndNr + rndRangeFrom
 			//fmt.Println("random PersonId: ", rndPersonId)
 		} else {
 			rndPersonId = rndRangeFrom
 		}
 		replacedUrl := strings.ReplaceAll(url, "$rnd", fmt.Sprintf("%010.f", float64(rndPersonId)))
-		//fmt.Println("url:", replacedUrl)
+		//log.Println("url:", replacedUrl)
 		before := time.Now()
 		resp, err := http.Get(replacedUrl)
 		after := time.Now()
 		duration := after.Sub(before)
 		sumDurations = duration + sumDurations
 		if err != nil {
-			fmt.Errorf(err.Error())
+			log.Fatal(err.Error())
 		} else if resp.StatusCode != 200 {
-			fmt.Errorf("http request code was ", resp.StatusCode)
+			log.Fatal("http request code was ", resp.StatusCode)
+		} else {
+			//read the response and ignore it to simulate the whole workflow a a request
+			ioutil.ReadAll(resp.Body)
 		}
 		if err != nil && resp != nil && resp.Body != nil {
 			resp.Body.Close()
