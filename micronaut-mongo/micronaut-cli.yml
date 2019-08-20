@@ -1,0 +1,5 @@
+profile: service
+defaultPackage: micronaut.mongo
+---
+testFramework: junit
+sourceLanguage: java

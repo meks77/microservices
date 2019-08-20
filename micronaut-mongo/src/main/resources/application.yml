@@ -1,0 +1,5 @@
+micronaut:
+  application:
+    name: micronaut-mongo
+mongodb:
+  uri: mongodb://mongo:27017/addresses
