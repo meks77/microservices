@@ -1,0 +1,19 @@
+version: '3'
+
+services:
+
+  mongo:
+    build:
+      context: ../../../../mongo
+    volumes:
+      - /opt/microservices/mongo:/data/db
+
+  micronaut:
+    build:
+      context: ../../../
+      dockerfile: src/main/docker/micronaut/Dockerfile.native
+    ports:
+      - 10006:8080
+    depends_on:
+      - mongo
+    restart: always
