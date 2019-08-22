@@ -8,15 +8,16 @@ import io.micronaut.http.annotation.PathVariable;
 import org.bson.BsonDocument;
 import org.bson.Document;
 
-import javax.inject.Inject;
-
 import static java.util.Optional.ofNullable;
 
 @Controller("address/{id}")
 public class AddressController {
 
-    @Inject
     private MongoClient mongoClient;
+
+    public AddressController(MongoClient mongoClient) {
+        this.mongoClient = mongoClient;
+    }
 
     @Get(produces = MediaType.APPLICATION_JSON)
     public String getAddress(@PathVariable(name = "id") int personId) {
