@@ -12,14 +12,13 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import java.util.Optional;
 
-@Path("/address")
 public class AddressResourceMongoClient {
 
     @Inject
     private MongoClient mongoClient;
 
     @GET
-    @Path("/{id}")
+    @Path("/address/{id}")
     @Produces(MediaType.APPLICATION_JSON)
     public String getAddress(@PathParam("id") int personId) {
         MongoIterable<Document> documents = mongoClient.getDatabase("addresses")

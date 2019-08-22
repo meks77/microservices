@@ -3,7 +3,7 @@ buildscript {
         mavenLocal()
     }
     dependencies {
-        classpath "io.quarkus:quarkus-gradle-plugin:0.19.1"
+        classpath "io.quarkus:quarkus-gradle-plugin:0.21.1"
     }
 }
 
@@ -19,7 +19,7 @@ repositories {
 }
 
 dependencies {
-    implementation enforcedPlatform("io.quarkus:quarkus-bom:0.19.1")
+    implementation enforcedPlatform("io.quarkus:quarkus-bom:0.21.1")
     implementation 'io.quarkus:quarkus-resteasy'
     implementation 'io.quarkus:quarkus-mongodb-client'
 

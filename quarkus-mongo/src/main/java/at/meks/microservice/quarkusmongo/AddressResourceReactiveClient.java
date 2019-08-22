@@ -11,14 +11,13 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import java.util.concurrent.CompletionStage;
 
-@Path("/reactive/address")
 public class AddressResourceReactiveClient {
 
     @Inject
     private ReactiveMongoClient reactiveMongoClient;
 
     @GET
-    @Path("/{id}")
+    @Path("/reactive/address/{id}")
     @Produces(MediaType.APPLICATION_JSON)
     public CompletionStage<String> getAddress(@PathParam("id") int personId) {
         return reactiveMongoClient.getDatabase("addresses")
