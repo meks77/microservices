@@ -1,8 +1,8 @@
 FROM gradle:jdk8 as build
 ENV APP_HOME=/usr/app/
 WORKDIR $APP_HOME
-COPY build.gradle settings.gradle gradlew $APP_HOME
-COPY gradle $APP_HOME/gradle
+COPY build.gradle settings.gradle gradlew ./
+COPY gradle ./gradle
 # start build to download gradle and deps
 RUN gradle build
 COPY . ./

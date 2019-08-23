@@ -1,0 +1,19 @@
+version: '3'
+
+services:
+
+  mongo:
+    build:
+      context: ../../../../mongo
+    volumes:
+      - /opt/microservices/mongo:/data/db
+
+  quarkus:
+    build:
+      context: ../../../
+      dockerfile: src/main/docker/quarkus/Dockerfile.native
+    ports:
+      - 10007:8083
+    depends_on:
+      - mongo
+    restart: always
