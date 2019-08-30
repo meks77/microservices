@@ -2,7 +2,7 @@ FROM golang:alpine
 
 WORKDIR /go/src
 
-RUN apk add git && rm -rf /var/cache/apk/*
+RUN apk add build-base && apk add git && rm -rf /var/cache/apk/*
 
 RUN mkdir -p github.com/meks77/go-mongo
 WORKDIR /go/src/github.com/meks77/go-mongo
