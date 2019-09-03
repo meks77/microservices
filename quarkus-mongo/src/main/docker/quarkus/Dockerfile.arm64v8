@@ -13,7 +13,7 @@ FROM arm64v8/openjdk:11-jre-slim
 ENV APP_HOME=/usr/app/
 ENV JAVA_OPTIONS="-Dquarkus.http.host=0.0.0.0 -Djava.util.logging.manager=org.jboss.logmanager.LogManager"
 ENV AB_ENABLED=jmx_exporter
-COPY --from=0 $APP_HOME/build/*-runner.jar app.jar
+COPY --from=build $APP_HOME/build/*-runner.jar app.jar
 COPY --from=build $APP_HOME/build/lib/* lib/
 CMD [ "java", "-jar", "app.jar" ]
 EXPOSE 8080
