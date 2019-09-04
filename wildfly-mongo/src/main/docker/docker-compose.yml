@@ -1,0 +1,21 @@
+version: '3'
+
+services:
+
+  mongo:
+    build:
+      context: ../../../../mongo
+    volumes:
+      - /opt/microservices/mongo:/data/db
+
+  spring:
+    build:
+      context: ../../../
+      dockerfile: src/main/docker/spring/Dockerfile
+    ports:
+      - 10010:8080
+    environment:
+      - MONGO_HOST=mongo
+    depends_on:
+      - mongo
+    restart: always
