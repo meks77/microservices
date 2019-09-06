@@ -13,7 +13,7 @@ RUN go build
 
 FROM golang:alpine
 ENV APP_SRC=/go/src/github.com/meks77/go-mongo
-COPY --from=0 $APP_SRC/go-mongo
+COPY --from=0 $APP_SRC/go-mongo .
 
 CMD ["bin/go-mongo"]
 EXPOSE 10005
