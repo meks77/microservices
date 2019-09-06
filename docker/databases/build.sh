@@ -1,4 +1,6 @@
 #!/bin/sh
 BASEDIR=$(dirname "$0")
 $BASEDIR/couchdb/build.sh
-$BASEDIR/mongo/build.sh
+
+$BASEDIR/build_db.sh mongo
+$BASEDIR/build_db.sh redis
