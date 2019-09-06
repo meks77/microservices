@@ -1,0 +1,18 @@
+version: '3'
+
+services:
+
+  couchdb:
+    image: meks77/couchdb
+    volumes:
+      - /opt/microservices/couchdb/:/opt/couchdb/data/
+#    ports:
+#      - 5984:5984
+
+  fastify:
+    image: meks77/fastify-couchdb
+    ports:
+      - 10001:3000
+    depends_on:
+      - couchdb
+    restart: always
