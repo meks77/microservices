@@ -3,4 +3,4 @@ BASEDIR=$(dirname "$0")
 DATABASE=$1
 DATABASE_DIR=$BASEDIR/$DATABASE
 printf "$SPACER build $DATABASE in $DATABASE_DATABASE_DIR $SPACER"
-docker build -t meks77/mongo "$DATABASE_DIR"
+docker build -t meks77/$DATABASE "$DATABASE_DIR"

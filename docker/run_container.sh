@@ -17,7 +17,7 @@ then
   then
     docker rm $DOCKER_CONTAINER_NAME
   fi
-  CMD="docker run -P -d --name $DOCKER_CONTAINER_NAME --network=meks77-microservice-network $DOCKER_IMAGE_NAME"
+  CMD="docker run -P -d --name $DOCKER_CONTAINER_NAME --network=meks77-microservice-network --rm $DOCKER_IMAGE_NAME"
   echo $CMD
   $CMD
 else
