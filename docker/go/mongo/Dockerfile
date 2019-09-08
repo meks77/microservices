@@ -15,5 +15,5 @@ FROM golang:alpine
 ENV APP_SRC=/go/src/github.com/meks77/go-mongo
 COPY --from=0 $APP_SRC/go-mongo .
 
-CMD ["bin/go-mongo"]
+CMD ["./go-mongo"]
 EXPOSE 10005
