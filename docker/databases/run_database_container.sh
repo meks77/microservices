@@ -23,6 +23,9 @@ elif [ "$DATABASE_NAME" = "couchdb" ]
 then
   echo "db is couchdb"
   CONTAINER_PATH=/opt/couchdb/data
+elif [ "$DATABASE_NAME" = "redis" ]
+then
+  CONTAINER_PATH=/data/
 else
   echo "unsupported database $DATABASE_NAME"
   exit 1
@@ -37,7 +40,7 @@ then
   STOPPED_CONTAINER=`docker container ls -a --format "{{.Names}}" | grep $CONTAINER_NAME`
   if [ -z "$STOPPED_CONTAINER" ]
   then
-    docker run -d --name $CONTAINER_NAME -v $VOLUME_MOUNT --network=meks77-microservice-network --network-alias=$DATABASE_NAME $IMAGE_NAME
+    docker run -d --name $CONTAINER_NAME -v $VOLUME_MOUNT --network=meks77-microservice-network --network-alias=$DATABASE_NAME --rm $IMAGE_NAME
   else
     docker start $CONTAINER_NAME
   fi
