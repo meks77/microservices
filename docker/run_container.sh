@@ -1,9 +1,16 @@
 #!/bin/bash
 DATABASE=$1
 ENVIRONMENT=$2
+NATIVE=$3
 
 DOCKER_IMAGE_NAME=meks77/$ENVIRONMENT-$DATABASE
 DOCKER_CONTAINER_NAME=meks77-$ENVIRONMENT-$DATABASE
+
+if [ "$NATIVE" != "" ]
+then
+  DOCKER_IMAGE_NAME=$DOCKER_IMAGE_NAME-native
+  DOCKER_CONTAINER_NAME=$DOCKER_CONTAINER_NAME-native
+fi;
 
 ./initDockerNetwork.sh
 databases/run_database_container.sh $DATABASE

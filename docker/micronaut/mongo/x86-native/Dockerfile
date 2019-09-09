@@ -1,9 +1,7 @@
-FROM oracle/graalvm-ce:19.1.0 as graalvm
+FROM meks77/graalvm-builder as graalvm
 
 WORKDIR /home/app/micronaut-mongo-app
 COPY . .
-RUN ./gradlew assemble
-RUN gu install native-image
 RUN native-image --no-server -jar build/libs/micronaut-mongo-*-all.jar
 
 FROM frolvlad/alpine-glibc

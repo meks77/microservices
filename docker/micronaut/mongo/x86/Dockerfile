@@ -1,13 +1,6 @@
 FROM openjdk:12-alpine
-
-
-WORKDIR src-for-build
-COPY . ./
-RUN ./gradlew build
-
-FROM openjdk:12-alpine
 WORKDIR /root/
-COPY --from=0 /src-for-build/build/distributions/micronaut-mongo-0.1.tar .
+COPY build/distributions/micronaut-mongo-0.1.tar .
 RUN tar xvf micronaut-mongo-0.1.tar && rm micronaut-mongo-0.1.tar && chmod +x micronaut-mongo-0.1/bin/micronaut-mongo
 WORKDIR micronaut-mongo-0.1/bin
 CMD [ "./micronaut-mongo" ]
