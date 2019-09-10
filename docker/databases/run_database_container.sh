@@ -26,6 +26,9 @@ then
 elif [ "$DATABASE_NAME" = "redis" ]
 then
   CONTAINER_PATH=/data/
+elif [ "$DATABASE_NAME" = "postgres" ]
+then
+  CONTAINER_PATH=/var/lib/postgresql/data
 else
   echo "unsupported database $DATABASE_NAME"
   exit 1
