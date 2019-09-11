@@ -17,9 +17,7 @@ public class AddressController {
 
     @GetMapping(value = "/address/{id}")
     public Address getAddress(@PathVariable Long id) {
-        System.out.println("Search address for " + id);
         final Optional<Address> found = addressRepository.findById(id);
-        System.out.println("addressFound: " + found.isPresent());
         return found.orElse(null);
     }
 }
