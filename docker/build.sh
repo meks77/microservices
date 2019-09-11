@@ -32,3 +32,4 @@ go/build.sh
 micronaut/build.sh
 quarkus/build.sh
 spring/build.sh
+wildfly/build.sh
