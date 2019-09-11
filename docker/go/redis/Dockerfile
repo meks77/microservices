@@ -1,11 +1,10 @@
 FROM meks77/go
 
 ENV APP_SRC=/go/src/github.com/meks77/go-redis
-RUN mkdir -p github.com/meks77/go-redis
 
+RUN mkdir -p $APP_SRC
 WORKDIR $APP_SRC
 
-RUN go get -u github.com/gorilla/mux
 RUN go get -u github.com/go-redis/redis
 
 COPY main.go .
