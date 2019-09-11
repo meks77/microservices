@@ -7,17 +7,17 @@ import org.springframework.data.mongodb.core.mapping.Document;
 public class Address  {
 
     @Id
-    private String id;
+    private Long id;
 
     private String strasse;
     private String plz;
     private String ort;
 
-    public String getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(Long id) {
         this.id = id;
     }
 

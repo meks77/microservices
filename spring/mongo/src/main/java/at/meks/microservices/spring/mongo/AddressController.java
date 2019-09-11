@@ -4,6 +4,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.Optional;
+
 @RestController
 public class AddressController {
 
@@ -15,6 +17,9 @@ public class AddressController {
 
     @GetMapping(value = "/address/{id}")
     public Address getAddress(@PathVariable Long id) {
-        return addressRepository.findById(id).orElse(null);
+        System.out.println("Search address for " + id);
+        final Optional<Address> found = addressRepository.findById(id);
+        System.out.println("addressFound: " + found.isPresent());
+        return found.orElse(null);
     }
 }

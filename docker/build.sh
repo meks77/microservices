@@ -31,3 +31,4 @@ go/build.sh
 ./create_graalvm_builder_image.sh
 micronaut/build.sh
 quarkus/build.sh
+spring/build.sh
