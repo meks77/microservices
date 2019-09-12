@@ -1,22 +1,16 @@
 #!/bin/sh
 export SPACER="\n==============================\n"
 export DEFAULT_ARCHITECTURE=x86
-export ARCHITECTURE=$1
-export NATIVE=$2
-
-if [ -z "$ARCHITECTURE" ]
+export NATIVE=$1
+ARCH=`docker info | grep aarch64`
+if [ -z "$ARCH" ]
 then
   export ARCHITECTURE=$DEFAULT_ARCHITECTURE;
+else
+  export ARCHITECTURE=arm64v8
 fi;
 
-if [ "$ARCHITECTURE" != "x86" ] && [ "$ARCHITECTURE" != "arm64v8" ]
-then
-  echo "unsupported architecture $ARCHITECTURE"
-  echo "supported architectures: x86, arm64v8"
-  exit 1;
-fi;
-
-if [ "$NATIVE" != "" ] && [ "$NATIVE" != "native"]
+if [ "$NATIVE" != "" ] && [ "$NATIVE" != "native" ]
 then
   echo "unsupported value for native flag: $NATIVE"
   exit 1;

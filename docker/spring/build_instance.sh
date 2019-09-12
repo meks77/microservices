@@ -4,8 +4,15 @@ DATABASE=$1
 DOCKERFILE=$BASEDIR/$DATABASE/$ARCHITECTURE/Dockerfile
 IMAGE_NAME=meks77/spring-$DATABASE
 
+if [ "$ARCHITECTURE" = "arm64v8" ]
+then
+  GRADLE_IMAGE=$ARCHITECTURE/gradle:jdk-alpine
+else
+  GRADLE_IMAGE=gradle:jdk12
+fi;
+
 printf "$SPACER build java spring $DATABASE $SPACER"
-docker run --rm -v $PWD/$BASEDIR/../../spring/$DATABASE:/home/gradle/project -v $HOME/.gradle:/home/gradle/.gradle -w /home/gradle/project gradle:jdk12 gradle bootJar
+docker run --rm -v $PWD/$BASEDIR/../../spring/$DATABASE:/home/gradle/project -v $HOME/.gradle:/home/gradle/.gradle -w /home/gradle/project $GRADLE_IMAGE gradle bootJar
 
 printf "$SPACER build docker image spring-$DATABASE with $DOCKERFILE $SPACER"
 docker build -f $DOCKERFILE -t $IMAGE_NAME $BASEDIR/../../spring/$DATABASE/

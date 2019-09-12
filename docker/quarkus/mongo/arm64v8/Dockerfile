@@ -1,19 +1,7 @@
-FROM arm64v8/openjdk:11-jdk-slim as build
-ENV APP_HOME=/usr/app/
-WORKDIR $APP_HOME
-COPY build.gradle settings.gradle gradlew ./
-COPY gradle ./gradle
-# start build to download gradle and deps
-RUN chmod +x gradlew && ./gradlew build
-COPY . ./
-RUN chmod +x gradlew && ./gradlew build
-
-
 FROM arm64v8/openjdk:11-jre-slim
-ENV APP_HOME=/usr/app/
 ENV JAVA_OPTIONS="-Dquarkus.http.host=0.0.0.0 -Djava.util.logging.manager=org.jboss.logmanager.LogManager"
 ENV AB_ENABLED=jmx_exporter
-COPY --from=build $APP_HOME/build/*-runner.jar app.jar
-COPY --from=build $APP_HOME/build/lib/* lib/
+COPY build/*-runner.jar app.jar
+COPY build/lib/* lib/
 CMD [ "java", "-jar", "app.jar" ]
 EXPOSE 8080
