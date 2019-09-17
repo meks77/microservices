@@ -30,6 +30,7 @@ func getOneAddress(w http.ResponseWriter, r *http.Request) {
 	checkError(err)
 	bytes := make([]byte, 118)
     byteCnt, err := file.ReadAt(bytes, int64((parsedPersonId - 1000000000) * 119))
+    _ = byteCnt
     checkError(err)
     fmt.Fprintf(w, string(bytes))
 }
