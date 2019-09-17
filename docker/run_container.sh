@@ -26,7 +26,7 @@ then
   fi
   if [ "$DATABASE" = "filesystem" ]
   then
-    VOLUME_MOUNT="-v /opt/microservices /filesystem/dataFile:/opt/microservices/filesystem/dataFile"
+    VOLUME_MOUNT="-v /opt/microservices/filesystem/dataFile:/opt/microservices/filesystem/dataFile"
   fi
   CMD="docker run -P -d --name $DOCKER_CONTAINER_NAME --network=meks77-microservice-network --rm $VOLUME_MOUNT $DOCKER_IMAGE_NAME"
   echo $CMD
