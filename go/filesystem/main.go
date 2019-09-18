@@ -19,9 +19,9 @@ func checkError(err error) {
 
 func getOneAddress(w http.ResponseWriter, r *http.Request) {
 	if file == nil {
-		f, err := os.Open("/opt/microservices/filesystem/dataFile")
-		checkError(err)
-		file = f
+        f, err := os.Open("/opt/microservices/filesystem/dataFile")
+        checkError(err)
+        file = f
 	}
 
 	personId := mux.Vars(r)["id"]

@@ -1,0 +1,80 @@
+version: '3'
+services:
+
+  fastify:
+    image: meks77/fastify-filesystem
+    restart: always
+    volumes:
+      - /opt/microservices/filesystem/:/opt/microservices/filesystem/
+    deploy:
+      resources:
+        limits:
+          cpus: '1.0'
+          memory: 30M
+    ports:
+      - 3000
+
+  go:
+    image: meks77/go-filesystem
+    restart: always
+    volumes:
+      - /opt/microservices/filesystem/:/opt/microservices/filesystem/
+    deploy:
+      resources:
+        limits:
+          cpus: '1.0'
+          memory: 5M
+    ports:
+      - 10005
+
+#  micronaut:
+#    image: meks77/micronaut-mongo
+#    restart: always
+#    depends_on:
+#      - mongo
+#    deploy:
+#      resources:
+#        limits:
+#          cpus: '1.0'
+#          memory: 50M
+#    ports:
+#      - 8080
+#
+#  quarkus:
+#    image: meks77/quarkus-mongo
+#    restart: always
+#    depends_on:
+#      - mongo
+#    deploy:
+#      resources:
+#        limits:
+#          cpus: '1.0'
+#          memory: 50M
+#    ports:
+#      - 8080
+#
+#  spring:
+#    image: meks77/spring-mongo
+#    restart: always
+#    depends_on:
+#      - mongo
+#    deploy:
+#      resources:
+#        limits:
+#          cpus: '1.0'
+#          memory: 50M
+#    ports:
+#      - 8080
+#
+#  wildfly:
+#    image: meks77/wildfly-mongo
+#    restart: always
+#    depends_on:
+#      - mongo
+#    deploy:
+#      resources:
+#        limits:
+#          cpus: '1.0'
+#          memory: 75M
+#    ports:
+#      - 8080

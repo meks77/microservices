@@ -3,6 +3,7 @@ BASEDIR=$(dirname "$0")
 printf "$SPACER build fastify in $BASEDIR $SPACER"
 
 docker build -t meks77/fastify $BASEDIR/.
-$BASEDIR/couchdb/build.sh
-$BASEDIR/mongo/build.sh
-$BASEDIR/redis/build.sh
+$BASEDIR/buildInstance.sh couchdb
+$BASEDIR/buildInstance.sh mongo
+$BASEDIR/buildInstance.sh redis
+$BASEDIR/buildInstance.sh filesystem
