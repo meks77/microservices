@@ -29,12 +29,13 @@ then
 elif [ "$DATABASE_NAME" = "postgres" ]
 then
   CONTAINER_PATH=/var/lib/postgresql/data
-elif [ "$DATABASE_NAME" = "filesystem" ]
+elif [ "$DATABASE_NAME" = "datafile" ]
 then
   echo "nothing to start in case of filesystem"
   exit 0
 else
   echo "unsupported database $DATABASE_NAME"
+  echo "supported are couchdb, redis, mongo, postgres, datafile"
   exit 1
 fi
 

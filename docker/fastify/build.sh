@@ -6,4 +6,4 @@ docker build -t meks77/fastify $BASEDIR/.
 $BASEDIR/buildInstance.sh couchdb
 $BASEDIR/buildInstance.sh mongo
 $BASEDIR/buildInstance.sh redis
-$BASEDIR/buildInstance.sh filesystem
+$BASEDIR/buildInstance.sh datafile
